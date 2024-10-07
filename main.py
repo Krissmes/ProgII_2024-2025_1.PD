@@ -1,4 +1,4 @@
-from novaktais import Raza
+from novaktais import Raza, Abols
 import tkinter as tk   
 from tkinter import ttk, END
 
@@ -26,6 +26,10 @@ def nomainit_sarakstu():
     listbox.delete(0,END)
     for raza in visi_raza:
         listbox.insert("end","{},{},{}".format(raza.name, raza.weight, raza.fruitorvegetable))
+def nomainit_sarakstu_abols():
+    listbox.delete(0,END)
+    for abols in visi_raza:
+        listbox.insert("end","{},{},{},{}".format(abols.name, abols.weight, abols.fruitorvegetable, abols.skirne))
 
 # nosaukums entry
 nosaukums = tk.StringVar()
@@ -41,6 +45,19 @@ daudzums = tk.IntVar()
 daudzums_entry = ttk.Entry(frame, textvariable=daudzums)
 daudzums_entry.grid(column=1, row=1, **options)
 
+# abolam daudzums
+
+abola_daudzums = tk.IntVar()
+
+abola_daudzums_entry = ttk.Entry(frame, textvariable=abola_daudzums)
+abola_daudzums_entry.grid(column=6, row=1, **options)
+
+# abola_skirne
+
+skirne = tk.StringVar()
+
+skirne_entry = ttk.Entry(frame, textvariable=skirne)
+skirne_entry.grid(column=6, row=2, **options)
 
 # aVAId entry
 
@@ -64,7 +81,7 @@ def jaunais_nosaukums_button_clicked():
     if not jaunaisVards:
         result_label.config(text="Lūdzu, ievadiet jauno vārdu.")
         return
-
+    
     for izveletais in listbox.curselection():
         visi_raza[izveletais].jaunais_nosaukums(jaunaisVards)
     
@@ -88,7 +105,7 @@ def jaunais_avaid_button_clicked():
     if not javaid:
         result_label.config(text="Lūdzu, ievadiet jauno a vai d.")
         return
-
+    
     for izveletais in listbox.curselection():
         visi_raza[izveletais].jaunais_avaid(javaid)
     
@@ -106,15 +123,42 @@ cik_aped_entry.grid(column=6, row=5)
 
 # aped
 
+# def aped_button_clicked(): 
+#     jaunais_teksts=""
+#     for izveletais in listbox.curselection():
+
+#         visi_raza[izveletais].aped()
+#         jaunais_teksts += visi_raza[izveletais].info() + "\n"
+
+#     result_label.config(text=jaunais_teksts)
+#     nomainit_sarakstu()
+
 def aped_button_clicked(): 
-    jaunais_teksts=""
-    for izveletais in listbox.curselection():
+    cik_aped_value = cik_aped.get()
+    
+    if cik_aped_value <= 0:
+        result_label.config(text="vajag pozitīvu skaitli.")
+        return
 
-        visi_raza[izveletais].aped()
-        jaunais_teksts += visi_raza[izveletais].info() + "\n"
+    jaunais_teksts = ""
+    izveletais = listbox.curselection()
 
-    result_label.config(text=jaunais_teksts)
+    
+
+    for izveletais in izveletais:
+        raza_aped = visi_raza[izveletais]
+        
+        
+        if raza_aped.weight >= cik_aped_value:
+            raza_aped.aped(cik_aped_value)
+            jaunais_teksts += raza_aped.info() + "\n"
+        if raza_aped.weight < cik_aped_value:
+            print("nevar tik daudz apest")
+        
+    result_label.config(text="veiksmigi apests") 
+    
     nomainit_sarakstu()
+
 
 # aped button
 
@@ -122,11 +166,40 @@ aped_button = ttk.Button(frame, text='apēdu 1 kg')
 aped_button.grid(column=7, row=5, sticky='W',**options)
 aped_button.configure(command=aped_button_clicked)
 
+# razot abolu button clicked
+def razot_abolu_button_clicked():
+    abols_daudzums = abola_daudzums.get()
+    abols_skirne_value = skirne.get().strip()
+
+    if abols_daudzums <= 0:
+        result_label.config(text="Lūdzu, ievadiet pozitīvu daudzumu ābolam.")
+        return
+
+    if not abols_skirne_value:
+        result_label.config(text="Lūdzu, ievadiet ābola šķirni.")
+        return
+
+    abols_obj = Abols(abola_daudzums.get(), abols_skirne_value.strip())
+    visi_raza.append(abols_obj)
+
+    result_label.config(text=abols_obj.info())
+    nomainit_sarakstu()
+# razot abolu button
+
+razot_abolu_button = ttk.Button(frame, text='novāktais ābols')
+razot_abolu_button.grid(column=7, row=2, sticky='W',**options)
+razot_abolu_button.configure(command=razot_abolu_button_clicked)
+
+
+
+
 #listbox button 
 def novaktaisList_button_clicked():
     raza_nosuakums = nosaukums.get()
     raza_daudzums = daudzums.get()
     raza_aVAId = aVAId.get()
+    
+
 
     visi_raza.append(Raza(raza_nosuakums, raza_daudzums, raza_aVAId))
     result_label.config(text=visi_raza[-1].info())
