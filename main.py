@@ -162,7 +162,7 @@ def aped_button_clicked():
 
 # aped button
 
-aped_button = ttk.Button(frame, text='apēdu 1 kg')
+aped_button = ttk.Button(frame, text='apēdu tik kg')
 aped_button.grid(column=7, row=5, sticky='W',**options)
 aped_button.configure(command=aped_button_clicked)
 
