@@ -1,4 +1,4 @@
-from novaktais import Raza, Abols
+from novaktais import Raza, Abols, Ievarijums
 import tkinter as tk   
 from tkinter import ttk, END
 
@@ -189,8 +189,27 @@ def razot_abolu_button_clicked():
 razot_abolu_button = ttk.Button(frame, text='novāktais ābols')
 razot_abolu_button.grid(column=7, row=2, sticky='W',**options)
 razot_abolu_button.configure(command=razot_abolu_button_clicked)
+# razot ievarijumu entry visi nepieciesamie
 
+ievarijums_daudzums = tk.IntVar()
+ievarijums_daudzums_entry = ttk.Entry(frame, textvariable= ievarijums_daudzums)
+ievarijums_daudzums_entry.grid(column=6, row=6)
 
+ievarijums_nosaukums = "procesa"
+
+# razot ievarijumu button clicked
+
+def razot_ievarijumu_button_clicked():
+    ievarijums_daudzums.get()
+    ievarijums_nosaukums.get()
+
+    if ievarijums_daudzums > 0:
+        print("procesa")
+# razot ievarijumu button
+
+razot_ievarijumu_button = ttk.Button(frame, text='novāktais ābols')
+razot_ievarijumu_button.grid(column=7, row=6, sticky='W',**options)
+razot_ievarijumu_button.configure(command=razot_ievarijumu_button_clicked)
 
 
 #listbox button 
