@@ -98,6 +98,11 @@ def jaunais_avaid_button_clicked():
 jaunais_avaid_button = ttk.Button(frame, text='mainīt a vai d')
 jaunais_avaid_button.grid(column=7, row=4, sticky='W',**options)
 jaunais_avaid_button.configure(command=jaunais_avaid_button_clicked)
+# aped entry
+
+cik_aped = tk.IntVar()
+cik_aped_entry = ttk.Entry(frame, textvariable= cik_aped)
+cik_aped_entry.grid(column=6, row=5)
 
 # aped
 

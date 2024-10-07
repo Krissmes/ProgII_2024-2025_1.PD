@@ -7,8 +7,8 @@ class Raza:
         self.name = jauns_nosaukums
     def jaunais_avaid(self, jauns_aVAId):
         self.fruitorvegetable = jauns_aVAId
-    def aped(self):
-        self.weight -= 1
+    def aped(self, cik_aped):
+        self.weight = self.weight - cik_aped
     def info(self):
         return "Novākto sauc {}, tas ir {} Kg daudz un tas ir {}".format(self.name, self.weight, self.fruitorvegetable)
 
