@@ -197,12 +197,14 @@ ievarijums_daudzums_entry.grid(column=6, row=6)
 
 ievarijums_nosaukums = "procesa"
 
+ievarijums_aVAId = "ievārījums"
+
 # razot ievarijumu button clicked
 
 def razot_ievarijumu_button_clicked():
     ievarijums_daudzums.get()
     ievarijums_nosaukums.get()
-
+    ievarijums_aVAId.get()
     if ievarijums_daudzums > 0:
         print("procesa")
 # razot ievarijumu button
