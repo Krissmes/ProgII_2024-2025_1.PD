@@ -77,7 +77,7 @@ jaunais_nosaukums_entry.grid(column=6, row=3, **options)
 #jaunais nosaukums button
 
 def jaunais_nosaukums_button_clicked():
-    jaunaisVards = jaunais_nosaukums.get()  # Retrieve the new name first
+    jaunaisVards = jaunais_nosaukums.get()  
     if not jaunaisVards:
         result_label.config(text="Lūdzu, ievadiet jauno vārdu.")
         return
@@ -101,7 +101,7 @@ jaunais_avaid_entry.grid(column=6, row=4, **options)
 #jaunais avaid button
 
 def jaunais_avaid_button_clicked():
-    javaid = jaunais_avaid.get()  # Retrieve the new name first
+    javaid = jaunais_avaid.get()  
     if not javaid:
         result_label.config(text="Lūdzu, ievadiet jauno a vai d.")
         return
@@ -189,28 +189,49 @@ def razot_abolu_button_clicked():
 razot_abolu_button = ttk.Button(frame, text='novāktais ābols')
 razot_abolu_button.grid(column=7, row=2, sticky='W',**options)
 razot_abolu_button.configure(command=razot_abolu_button_clicked)
-# razot ievarijumu entry visi nepieciesamie
 
-ievarijums_daudzums = tk.IntVar()
-ievarijums_daudzums_entry = ttk.Entry(frame, textvariable= ievarijums_daudzums)
-ievarijums_daudzums_entry.grid(column=6, row=6)
-
-ievarijums_nosaukums = "procesa"
-
-ievarijums_aVAId = "ievārījums"
-
-# razot ievarijumu button clicked
+# razot ievarijumu funkcija
 
 def razot_ievarijumu_button_clicked():
-    ievarijums_daudzums.get()
-    ievarijums_nosaukums.get()
-    ievarijums_aVAId.get()
-    if ievarijums_daudzums > 0:
-        print("procesa")
-# razot ievarijumu button
+    cik_ievarijums = ievarijums_daudzums.get()  
 
-razot_ievarijumu_button = ttk.Button(frame, text='novāktais ābols')
-razot_ievarijumu_button.grid(column=7, row=6, sticky='W',**options)
+    if cik_ievarijums <= 0:
+        result_label.config(text="jābūt pozitīvam skaitlim")
+        return
+
+    selected = listbox.curselection()
+    if not selected:
+        result_label.config(text="kādu ievārījumu gribi")
+        return
+
+    izveletais = selected[0]  
+    raza_obj = visi_raza[izveletais]
+
+    
+    if raza_obj.weight < (cik_ievarijums * 2):
+        result_label.config(text="nevari tik daudz ievārījumu izveidot")
+        return
+
+
+    try:
+        raza_obj.aped(cik_ievarijums * 2)
+    except ValueError as e:
+        result_label.config(text=str(e))
+        return
+
+   
+    ievarijums_obj = Ievarijums(raza_obj, "ievārījums", cik_ievarijums)
+    visi_raza.append(ievarijums_obj)
+    result_label.config(text=ievarijums_obj.info())
+    nomainit_sarakstu()
+
+# ievarijums button un entry
+ievarijums_daudzums = tk.IntVar()
+ievarijums_daudzums_entry = ttk.Entry(frame, textvariable=ievarijums_daudzums)
+ievarijums_daudzums_entry.grid(column=6, row=6, **options)
+
+razot_ievarijumu_button = ttk.Button(frame, text='ievārījums')
+razot_ievarijumu_button.grid(column=7, row=6, sticky='W', **options)
 razot_ievarijumu_button.configure(command=razot_ievarijumu_button_clicked)
 
 

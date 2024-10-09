@@ -22,13 +22,13 @@ class Abols(Raza):
     def info(self):
         abola_info = super().info()
         return f"{abola_info} ābola šķirne ir {self.abola_skirne}"
-class Ievarijums(Raza):
-    def __init__(self, nosaukums, daudzums,):
-        super().__init__(nosaukums, daudzums)
-    def info(self):
-        ievarijums_info = super().info()
-        return f"izveidotais ievārījums - {ievarijums_info}"
 
+class Ievarijums(Raza):
+    def __init__(self, source_raza, nosaukums, daudzums):
+        super().__init__(nosaukums, daudzums, "ievārījums")
+        self.source_raza = source_raza  
+    def info(self):
+        return f"Izveidots ievārījums no {self.source_raza.name} un tas ir {self.weight} Kg daudz"
 
 
 
